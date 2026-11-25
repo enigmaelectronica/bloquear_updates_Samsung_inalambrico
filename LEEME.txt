@@ -1,4 +1,4 @@
-SAMSUNG ADB PORTABLE  v1.0
+SAMSUNG ADB PORTABLE  v1.1
 =========================
 
 Creado por EnigmaHernandez - EnigmaTeam.org
@@ -51,6 +51,7 @@ Menu
        3.2 Subir archivo (adb push)
        3.3 Ver y actualizar IP / puerto
        3.4 Reiniciar servidor adb
+       3.5 Verificar integridad de adb.exe (SHA-256)
   4. Ayuda: donde consulto el codigo de vinculacion
   5. Solucionar problemas de conexion (diagnostico automatico)
 

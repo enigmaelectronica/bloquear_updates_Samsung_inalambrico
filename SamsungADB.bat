@@ -1,6 +1,6 @@
 @echo off
 rem ==================================================================
-rem  SAMSUNG ADB PORTABLE  v1.0
+rem  SAMSUNG ADB PORTABLE  v1.1
 rem  Conexion USB / WiFi, bloqueo de actualizaciones y diagnosticos.
 rem  No instala nada: usa el adb.exe que esta en esta misma carpeta.
 rem
@@ -23,8 +23,13 @@ set "PKG_OTA2=com.wssyncmldm"
 set "PKG_STORE=com.samsung.android.app.updatecenter"
 set "OFF=0"
 set "ON=1"
+set "ADB_SHA256=bae5ce98846b19caa74a34900850caa8b21d01976932b2ad83baeb5de5651aee"
+set "ADB_INTEGRIDAD="
 
 if not exist "%~dp0adb.exe" goto sinadb
+call :verificar_adb
+if "!ADB_INTEGRIDAD!"=="0" goto alarma_integridad
+
 call :iniciar_adb
 
 
@@ -34,7 +39,7 @@ rem ==================================================================
 :menu
 cls
 echo ==============================================================
-echo    SAMSUNG ADB PORTABLE   v1.0
+echo    SAMSUNG ADB PORTABLE   v1.1
 echo ==============================================================
 if exist "%CONFIG%" (
     set /p "LASTCONN="<"%CONFIG%"
@@ -139,10 +144,12 @@ echo   1. Estado del telefono [modelo, Android, espacio, updates]
 echo   2. Subir archivo [adb push]
 echo   3. Ver y actualizar IP / puerto del telefono
 echo   4. Reiniciar servidor adb [arregla conexiones zombis]
+echo   5. Verificar integridad de adb.exe [SHA-256]
 echo   0. Volver
 echo.
-choice /c 12340 /n /m "  Opcion: "
-if errorlevel 5 goto menu
+choice /c 123450 /n /m "  Opcion: "
+if errorlevel 6 goto menu
+if errorlevel 5 goto verificar_pantalla
 if errorlevel 4 goto reiniciar_adb
 if errorlevel 3 goto ver_ip
 if errorlevel 2 goto push
@@ -905,3 +912,86 @@ if errorlevel 1 (
     adb start-server >nul 2>&1
 )
 exit /b
+
+
+rem ==================================================================
+rem  INTEGRIDAD DE adb.exe
+rem ==================================================================
+
+rem --- Calcula el SHA-256 de adb.exe y lo deja en ADB_HASH_REAL
+:hash_adb
+set "ADB_HASH_REAL="
+for /f "skip=1 delims=" %%h in ('certutil -hashfile "%~dp0adb.exe" SHA256 2^>nul') do (
+    if not defined ADB_HASH_REAL set "ADB_HASH_REAL=%%h"
+)
+set "ADB_HASH_REAL=!ADB_HASH_REAL: =!"
+exit /b
+
+rem --- 1 = coincide, 0 = no coincide, 2 = no se pudo comprobar
+:verificar_adb
+set "ADB_INTEGRIDAD=2"
+call :hash_adb
+if not defined ADB_HASH_REAL exit /b 2
+if /i "!ADB_HASH_REAL!"=="%ADB_SHA256%" (
+    set "ADB_INTEGRIDAD=1"
+    exit /b 0
+)
+set "ADB_INTEGRIDAD=0"
+exit /b 1
+
+rem --- Pantalla de verificacion manual
+:verificar_pantalla
+cls
+echo === INTEGRIDAD DE adb.exe ===
+echo.
+echo   Huella esperada de Platform-Tools 37.0.3:
+echo   %ADB_SHA256%
+echo.
+call :hash_adb
+if not defined ADB_HASH_REAL goto integ_sin
+echo   Huella obtenida del archivo:
+echo   !ADB_HASH_REAL!
+echo.
+if /i "!ADB_HASH_REAL!"=="%ADB_SHA256%" goto integ_ok
+echo   [FALLO] El archivo NO coincide con la huella conocida.
+echo           Vuelve a copiarlo desde el repositorio oficial.
+goto integ_fin
+:integ_ok
+echo   [OK] adb.exe es identico al binario original.
+goto integ_fin
+:integ_sin
+echo   [AVISO] No se pudo calcular la huella: certutil no esta disponible
+echo           o el archivo no se puede leer.
+:integ_fin
+echo.
+call :iniciar_adb
+adb version
+echo.
+pause
+goto menu_herramientas
+
+rem --- Aviso bloqueante al arrancar si el binario fue alterado
+:alarma_integridad
+cls
+echo ==============================================================
+echo    AVISO DE SEGURIDAD
+echo ==============================================================
+echo.
+echo   adb.exe NO coincide con la huella SHA-256 esperada.
+echo.
+echo   Esperada: %ADB_SHA256%
+echo   Obtenida: !ADB_HASH_REAL!
+echo.
+echo   Puede estar alterado, danado o ser otra version de Platform-Tools.
+echo   Vuelve a copiarlo desde el repositorio oficial antes de usarlo.
+echo.
+set /p "ANS=Continuar de todos modos? [s/n]: "
+if /i "!ANS!"=="s" goto menu
+:abortar
+echo.
+echo   Programa detenido por seguridad.
+echo   Creado por EnigmaHernandez - EnigmaTeam.org
+echo.
+pause
+endlocal
+exit /b 1

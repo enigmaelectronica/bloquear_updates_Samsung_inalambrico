@@ -5,7 +5,22 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ## [No publicado]
 
+_Nada pendiente._
+
 _Ideas en evaluación: menú en inglés, comprobación de integridad del `adb.exe`, modo silencioso para despliegue masivo en taller._
+
+## [1.1.0] — 2026-11-25
+
+### Añadido
+
+- **Verificación de integridad de `adb.exe`** con SHA-256 (`certutil`) al arrancar el programa: si el binario no coincide con la huella de Platform-Tools 37.0.3 se muestra un aviso de seguridad y hay que confirmar para continuar.
+- Nueva opción **3 → 5** para verificar la huella a demanda, con la esperada y la obtenida en pantalla.
+- Pregunta correspondiente en la sección de FAQ del README.
+
+### Cambiado
+
+- Banner y documentación a la versión **v1.1**.
+- El README explica la verificación también en la tabla de acciones.
 
 ## [1.0.0] — 2026-11-25
 
@@ -50,5 +65,6 @@ Durante el desarrollo se resolvieron fallos que afectaban al uso real:
 - En redes con aislamiento de clientes (hoteles, empresas) la conexión WiFi entre PC y teléfono no es posible; hay que usar USB.
 - Los binarios de `adb` son de Google (Apache-2.0) y no forman parte del trabajo original.
 
-[No publicado]: https://github.com/enigmaelectronica/bloquear_updates_Samsung_inalambrico/compare/v1.0.0...HEAD
+[No publicado]: https://github.com/enigmaelectronica/bloquear_updates_Samsung_inalambrico/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/enigmaelectronica/bloquear_updates_Samsung_inalambrico/releases/tag/v1.1.0
 [1.0.0]: https://github.com/enigmaelectronica/bloquear_updates_Samsung_inalambrico/releases/tag/v1.0.0

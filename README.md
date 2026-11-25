@@ -27,6 +27,7 @@ Todo va en una carpeta portable con su propio `adb` (Google Platform-Tools): se 
 | Reactivar todo | `pm enable` sobre los tres paquetes |
 | Estado del teléfono | `getprop`, `df -h /sdcard`, `pm list packages -d/-e` |
 | Subir archivos | `adb push` a cualquier ruta, por defecto `/sdcard/Download/` |
+| Verificar el binario | `certutil -hashfile adb.exe SHA256` contra la huella publicada |
 
 `pm disable-user --user 0` no borra datos ni requiere root: solo deshabilita el paquete para el usuario principal y se revierte con `pm enable`.
 
@@ -84,6 +85,7 @@ tools/                Scripts que generan la captura y la documentación
      3.2 Subir archivo (adb push)
      3.3 Ver y actualizar IP / puerto
      3.4 Reiniciar servidor adb
+     3.5 Verificar integridad de adb.exe (SHA-256)
 4. Ayuda: donde consulto el codigo de vinculacion
 5. Solucionar problemas de conexion (diagnostico)
 ```
@@ -136,6 +138,7 @@ Casos que también cubre: IP en subred distinta, redes de invitados con aislamie
 - **mDNS deja de anunciar** cuando se cierra la pantalla de Depuración inalámbrica, aunque el puerto siga vivo: por eso se prueba primero el puerto guardado.
 - **adb duplica el dispositivo** con un serial tipo `adb-XXXX._adb-tls-connect._tcp`; el script lo ignora para no pedir que se elija entre dos dispositivos iguales.
 - **`adb.log` bloqueado** impide arrancar el daemon: el script lo borra y reintenta solo.
+- **Integridad del binario**: se valida `adb.exe` con SHA-256 al arrancar para detectar copias corruptas o manipuladas.
 - La detección de éxito de `adb connect` se hace comparando cadenas, no con tuberías dentro de un `if` (eso daba falsos positivos y guardaba conexiones fallidas).
 
 ---
@@ -165,6 +168,17 @@ Un restablecimiento de fábrica o una actualización por Odin/Smart Switch tambi
 ---
 
 ## Preguntas frecuentes
+
+<details>
+<summary><b>¿Cómo sé que el <code>adb.exe</code> no está alterado?</b></summary>
+
+El programa calcula su SHA-256 al arrancar y lo compara con la huella de Platform-Tools 37.0.3 (`bae5ce98…51aee`). Si no coincide, muestra un aviso y no continúa salvo que se lo confirmes. También puedes verificarlo cuando quieras en **3 → 5**, o a mano:
+
+```bat
+certutil -hashfile adb.exe SHA256
+```
+
+</details>
 
 <details>
 <summary><b>¿Necesito root, desbloquear el bootloader o flashear algo?</b></summary>
