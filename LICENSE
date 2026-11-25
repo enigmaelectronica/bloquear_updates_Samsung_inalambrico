@@ -1,0 +1,50 @@
+LICENCIA DE USO Y COMPARTIR
+===========================
+
+Proyecto: bloquear_updates_Samsung_inalambrico
+Creado por EnigmaHernandez - EnigmaTeam.org
+
+Se permite usar, copiar, modificar, fusionar, publicar, distribuir y/o vender
+copias del software y de su documentacion, siempre que se cumplan estas
+condiciones:
+
+1. CREDITOS AL CREADOR
+   Debe mantenerse de forma clara y visible el aviso:
+
+       Creado por EnigmaHernandez - EnigmaTeam.org
+
+   en la cabecera del software, en su interfaz (menu), en la documentacion
+   y en cualquier obra derivada, fork o redistribucion, tanto del codigo
+   como del paquete compilado.
+
+2. AVISO DE LICENCIA
+   Este archivo LICENSE debe incluirse en todas las copias o partes
+   sustanciales del software.
+
+3. SIN GARANTIA
+   EL SOFTWARE SE ENTREGA "TAL CUAL", SIN GARANTIA DE NINGUN TIPO, EXPRESA
+   O IMPLICITA, INCLUYENDO PERO NO LIMITADO A LAS GARANTIAS DE
+   COMERCIALIZACION, IDONEIDAD PARA UN PROPOSITO PARTICULAR Y NO
+   INFRACCION. EN NINGUN CASO LOS AUTORES O TITULARES DE LOS DERECHOS DE
+   AUTOR SERAN RESPONSABLES DE NINGUNA RECLAMACION, DANO U OTRA
+   RESPONSABILIDAD, YA SEA EN UNA ACCION DE CONTRATO, AGRAVIO O DE OTRO
+   TIPO, QUE SURJA DE, FUERA DE O EN RELACION CON EL SOFTWARE O EL USO U
+   OTROS TRATOS EN EL SOFTWARE.
+
+4. USO RESPONSABLE
+   Deshabilitar los paquetes de actualizacion deja el dispositivo sin
+   parches de seguridad del fabricante. El usuario asume esa decision y
+   es responsable del equipo sobre el que ejecuta el software.
+
+COMPONENTES DE TERCEROS
+-----------------------
+  adb.exe, AdbWinApi.dll y AdbWinUsbApi.dll
+      Android SDK Platform-Tools, Copyright (C) Google Inc.
+      Distribuidos bajo Apache License 2.0.
+      Ver el archivo NOTICE.txt incluido en este repositorio.
+      Se incluyen sin modificaciones para que el paquete sea portable
+      y funcione sin conexion a Internet.
+
+  Este aviso de terceros no se ve afectado por la clausula 1: los creditos
+  exigidos se refieren al trabajo original de EnigmaHernandez
+  (SamsungADB.bat, LEEME.txt, README.md y documentacion asociada).

@@ -1,8 +1,18 @@
 # bloquear_updates_Samsung_inalambrico
 
+**Creado por EnigmaHernandez — [EnigmaTeam.org](https://enigmateam.org)**
+
+![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?logo=windows&logoColor=white)
+![Android](https://img.shields.io/badge/Android-11%2B%20%C2%B7%20WiFi%20o%20USB-3DDC84?logo=android&logoColor=white)
+![Sin root](https://img.shields.io/badge/sin-root-success)
+![Licencia](https://img.shields.io/badge/licencia-compartir%20citando%20al%20autor-orange)
+
 Bloquea las actualizaciones de Samsung (OTA y Galaxy Store) en cualquier teléfono Samsung desde Windows, **por WiFi o USB**, sin root, sin Odin y sin instalar nada.
 
 Todo va en una carpeta portable con su propio `adb` (Google Platform-Tools): se copia a un USB y funciona en cualquier PC con Windows 10/11.
+
+![Menú de SamsungADB.bat](assets/menu.png)
+
 
 > Probado de punta a punta con un **Samsung Galaxy A25 5G (SM-A256E, Android 15 / One UI 7)** conectado por WiFi.
 
@@ -27,11 +37,14 @@ Todo va en una carpeta portable con su propio `adb` (Google Platform-Tools): se 
 ```
 SamsungADB.bat        Programa principal (doble clic)
 LEEME.txt             Instrucciones y tabla de escenarios de fallo
+LICENSE               Licencia de uso y compartir (créditos al creador)
 adb.exe               Android Debug Bridge (Platform-Tools 37.0.3)
 AdbWinApi.dll         Necesario para USB
 AdbWinUsbApi.dll      Necesario para USB
 NOTICE.txt            Licencia de Platform-Tools (Apache-2.0)
 source.properties     Versión de las herramientas
+assets/menu.png       Captura del menú (la de este README)
+tools/render_menu.py  Script que genera esa captura
 ```
 
 ---
@@ -151,6 +164,15 @@ Un restablecimiento de fábrica o una actualización por Odin/Smart Switch tambi
 
 ## Licencia y créditos
 
-El script (`SamsungADB.bat`, `LEEME.txt`) se distribuye bajo licencia MIT.
+El texto completo está en [LICENSE](LICENSE).
+
+Este proyecto se puede usar, copiar, modificar y redistribuir libremente, con una sola condición: **respetar los créditos al creador**. Cualquier copia, fork o versión derivada debe mantener visible el aviso:
+
+```
+Creado por EnigmaHernandez - EnigmaTeam.org
+Licencia de compartir y respetando los creditos al creador
+```
+
+Ese aviso aparece en la cabecera de `SamsungADB.bat`, en el menú principal y al salir del programa.
 
 `adb.exe`, `AdbWinApi.dll` y `AdbWinUsbApi.dll` son parte de **Android SDK Platform-Tools**, propiedad de Google, distribuidas bajo **Apache License 2.0**. Ver `NOTICE.txt`. Se incluyen sin modificaciones para que el paquete sea portable y funcione sin conexión.

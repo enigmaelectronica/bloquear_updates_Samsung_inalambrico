@@ -1,5 +1,9 @@
-SAMSUNG ADB PORTABLE
-====================
+SAMSUNG ADB PORTABLE  v1.0
+=========================
+
+Creado por EnigmaHernandez - EnigmaTeam.org
+Licencia: compartir y usar libremente, respetando los creditos al creador.
+El texto completo de la licencia esta en el archivo LICENSE.
 
 Que es
 ------

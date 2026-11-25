@@ -1,8 +1,12 @@
 @echo off
 rem ==================================================================
-rem  SAMSUNG ADB PORTABLE
+rem  SAMSUNG ADB PORTABLE  v1.0
 rem  Conexion USB / WiFi, bloqueo de actualizaciones y diagnosticos.
 rem  No instala nada: usa el adb.exe que esta en esta misma carpeta.
+rem
+rem  Creado por EnigmaHernandez - EnigmaTeam.org
+rem  Licencia: compartir y usar libremente, respetando los creditos
+rem            al creador (EnigmaHernandez - EnigmaTeam.org).
 rem
 rem  Paquetes que maneja:
 rem    com.sec.android.soagent        -> agente de actualizacion Samsung (OTA)
@@ -30,7 +34,7 @@ rem ==================================================================
 :menu
 cls
 echo ==============================================================
-echo    SAMSUNG ADB PORTABLE
+echo    SAMSUNG ADB PORTABLE   v1.0
 echo ==============================================================
 if exist "%CONFIG%" (
     set /p "LASTCONN="<"%CONFIG%"
@@ -49,6 +53,10 @@ echo   3. Herramientas [estado, subir archivos, reconectar]
 echo   4. Ayuda: donde consulto el CODIGO de vinculacion
 echo   5. Solucionar problemas de conexion [diagnostico]
 echo   0. Salir
+echo.
+echo   ----------------------------------------------------------
+echo    Creado por EnigmaHernandez - EnigmaTeam.org
+echo    Compartir libre citando al creador.
 echo.
 choice /c 123450 /n /m "  Opcion: "
 if errorlevel 6 goto fin
@@ -693,6 +701,8 @@ rem ==================================================================
 rem  FIN
 rem ==================================================================
 :fin
+echo.
+echo   Creado por EnigmaHernandez - EnigmaTeam.org
 echo.
 echo Cerrando servidor adb...
 adb kill-server >nul 2>&1
