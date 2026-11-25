@@ -1,0 +1,119 @@
+SAMSUNG ADB PORTABLE
+====================
+
+Que es
+------
+Carpeta portable para conectar cualquier telefono Samsung (o cualquier Android)
+a una PC Windows por USB o por WiFi, y para bloquear las actualizaciones de
+Samsung y de Galaxy Store. No se instala nada: todo lo que necesita esta aqui.
+
+Contenido
+---------
+  SamsungADB.bat   -> el programa (doble clic)
+  adb.exe          -> Android Debug Bridge (Google Platform-Tools)
+  AdbWinApi.dll    -> necesario para USB
+  AdbWinUsbApi.dll -> necesario para USB
+  NOTICE.txt       -> licencia de Platform-Tools
+  ultima_conexion.txt -> se crea solo, guarda la IP:puerto de la ultima sesion
+
+Requisitos
+----------
+  - Windows 10 u 11 (64 bits).
+  - Para USB: driver Samsung USB. Si el telefono no aparece, instala
+    "Samsung USB Driver for Mobile Phones" o Smart Switch.
+  - Para WiFi: PC y telefono en la MISMA red WiFi.
+
+Como se usa
+-----------
+  1. Doble clic en SamsungADB.bat
+  2. Opcion 1 "Conectar mi telefono".
+  3. Elegir WiFi (con codigo) o USB.
+
+Menu
+----
+  1. Conectar mi telefono
+       1.1 WiFi: vincular con codigo (Android 11 o superior)
+       1.2 WiFi: ya lo vincule antes (solo reconectar)
+       1.3 USB: conectar por cable (cualquier Android)
+       1.4 Ver que dispositivos detecta adb
+  2. Actualizaciones de Samsung
+       2.1 Deshabilitar OTA del sistema
+       2.2 Deshabilitar Galaxy Store
+       2.3 Deshabilitar TODO
+       2.4 Reactivar todo
+       2.5 Ver estado de los 3 paquetes
+  3. Herramientas
+       3.1 Estado del telefono
+       3.2 Subir archivo (adb push)
+       3.3 Ver y actualizar IP / puerto
+       3.4 Reiniciar servidor adb
+  4. Ayuda: donde consulto el codigo de vinculacion
+  5. Solucionar problemas de conexion (diagnostico automatico)
+
+Paquetes que deshabilita
+------------------------
+  com.sec.android.soagent               agente de actualizacion Samsung (OTA)
+  com.wssyncmldm                        descarga de firmware (OTA)
+  com.samsung.android.app.updatecenter  actualizaciones de Galaxy Store
+
+  Para volver a habilitarlos: menu 2, opcion 4 (REACTIVAR todo).
+
+Donde esta el codigo de vinculacion
+-----------------------------------
+  El codigo de 6 digitos SOLO se muestra en la pantalla del telefono.
+  Ningun programa puede leerlo.
+
+  PASO 1  Ajustes - Informacion del telefono - Informacion del software
+          Tocar 7 veces "Numero de compilacion" (pide PIN o patron).
+  PASO 2  Ajustes - Opciones de desarrollador
+          Activar "Depuracion USB" y "Depuracion inalambrica".
+          Si "Depuracion inalambrica" esta en gris: conecta el telefono a WiFi.
+  PASO 3  Tocar "Depuracion inalambrica" - "Vincular dispositivo con codigo".
+          Aparecen el codigo (6 digitos) y la "Direccion IP y puerto".
+          Ese puerto es el de VINCULACION.
+  PASO 4  El programa pide: IP, puerto de vinculacion y codigo.
+          Despues detecta solo el puerto de CONEXION (es otro).
+
+Escenarios de fallo y que hacer
+-------------------------------
+  SINTOMA                          CAUSA / SOLUCION
+  -------------------------------  --------------------------------------------
+  adb devices vacio (USB)          Driver Samsung ausente, cable solo de carga o
+                                   puerto USB danado. Probar otro cable/puerto.
+  adb devices dice "unauthorized"  Falta aceptar el aviso en el telefono:
+                                   desbloquear y tocar "Permitir".
+  adb devices dice "offline"       Reconectar cable, o Herramientas 3.4
+                                   (reiniciar servidor adb).
+  WiFi: "cannot connect"           Puerto cerrado o equivocado. El puerto CAMBIA
+                                   al reiniciar el telefono: mirarlo en
+                                   Depuracion inalambrica.
+  WiFi: "failed to authenticate"   El puerto esta abierto pero falta VINCULAR:
+                                   menu 1, opcion 1, con el codigo.
+  WiFi: conecta y se cae           El telefono duerme la WiFi o cambio de red.
+                                   Reconectar (menu 1, opcion 2).
+  WiFi: nunca conecta              PC y telefono en redes distintas. Comparar
+                                   las IP: deben compartir los 3 primeros
+                                   numeros (ej. 192.168.0.x ambos).
+  Red de hotel/empresa             Esas redes aíslan a los equipos entre si:
+                                   usar cable USB.
+  El codigo fue rechazado          Caduco al cerrar el cuadro. Reabrir
+                                   "Vincular con codigo" y repetir.
+  Falta la opcion "Depuracion      Hay que activar antes Opciones de
+  inalambrica"                     desarrollador (PASO 1).
+  La opcion esta en gris           Sin WiFi conectada. Los datos moviles no
+                                   sirven para ADB inalambrico.
+  "Ajustes - Actualizacion de      Es normal tras deshabilitar los paquetes:
+  software" se queda cargando      el servicio que la alimenta esta apagado.
+
+El diagnostico (menu 5) revisa todo esto solo y dice que falla.
+
+Notas
+-----
+  - El puerto de depuracion inalambrica cambia en cada reinicio del telefono.
+    El programa guarda el ultimo que funciono en ultima_conexion.txt.
+  - Deshabilitar paquetes con pm disable-user --user 0 no borra datos y se
+    revierte con pm enable.
+  - Un restablecimiento de fabrica o una actualizacion por Odin/Smart Switch
+    devuelve los paquetes a su estado original.
+  - Si Windows bloquea el .bat por directiva de ejecucion, abrir una consola y
+    ejecutar:  powershell -ExecutionPolicy Bypass -File .\SamsungADB.bat
