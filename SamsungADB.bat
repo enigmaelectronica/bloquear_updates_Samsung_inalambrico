@@ -1,6 +1,6 @@
 @echo off
 rem ==================================================================
-rem  SAMSUNG ADB PORTABLE  v1.1
+rem  SAMSUNG ADB PORTABLE  v1.1.1
 rem  Conexion USB / WiFi, bloqueo de actualizaciones y diagnosticos.
 rem  No instala nada: usa el adb.exe que esta en esta misma carpeta.
 rem
@@ -39,7 +39,7 @@ rem ==================================================================
 :menu
 cls
 echo ==============================================================
-echo    SAMSUNG ADB PORTABLE   v1.1
+echo    SAMSUNG ADB PORTABLE   v1.1.1
 echo ==============================================================
 if exist "%CONFIG%" (
     set /p "LASTCONN="<"%CONFIG%"
@@ -907,10 +907,18 @@ rem --- Arranca adb; si el daemon falla por un adb.log bloqueado, lo limpia
 :iniciar_adb
 adb start-server >nul 2>&1
 adb devices >nul 2>&1
-if errorlevel 1 (
-    if exist "%TEMP%\adb.log" del /f /q "%TEMP%\adb.log" >nul 2>&1
-    adb start-server >nul 2>&1
-)
+if not errorlevel 1 exit /b
+
+rem Reintento 1: adb.log bloqueado impide arrancar el daemon
+if exist "%TEMP%\adb.log" del /f /q "%TEMP%\adb.log" >nul 2>&1
+adb start-server >nul 2>&1
+adb devices >nul 2>&1
+if not errorlevel 1 exit /b
+
+rem Reintento 2: algunos antivirus o politicas bloquean el daemon desacoplado.
+rem Se levanta como proceso aparte en primer plano del servidor.
+start "adb-server" /min "%~dp0adb.exe" -L tcp:5037 nodaemon server >nul 2>&1
+ping -n 3 127.0.0.1 >nul
 exit /b
 
 

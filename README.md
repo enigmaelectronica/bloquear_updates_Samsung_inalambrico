@@ -139,6 +139,7 @@ Casos que también cubre: IP en subred distinta, redes de invitados con aislamie
 - **adb duplica el dispositivo** con un serial tipo `adb-XXXX._adb-tls-connect._tcp`; el script lo ignora para no pedir que se elija entre dos dispositivos iguales.
 - **`adb.log` bloqueado** impide arrancar el daemon: el script lo borra y reintenta solo.
 - **Integridad del binario**: se valida `adb.exe` con SHA-256 al arrancar para detectar copias corruptas o manipuladas.
+- **Arranque del daemon en tres intentos**: si el antivirus bloquea el proceso desacoplado de adb, se reintenta borrando `adb.log` y, como última opción, se levanta el servidor con `adb nodaemon server`.
 - La detección de éxito de `adb connect` se hace comparando cadenas, no con tuberías dentro de un `if` (eso daba falsos positivos y guardaba conexiones fallidas).
 
 ---

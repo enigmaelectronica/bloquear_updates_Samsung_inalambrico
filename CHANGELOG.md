@@ -9,6 +9,16 @@ _Nada pendiente._
 
 _Ideas en evaluación: menú en inglés, comprobación de integridad del `adb.exe`, modo silencioso para despliegue masivo en taller._
 
+## [1.1.1] — 2026-11-25
+
+### Corregido
+
+- **El daemon de adb no arrancaba en equipos donde el antivirus o una política bloquea el proceso desacoplado** (síntoma: `failed to start daemon` y `cannot open ...adb.log: Permission denied`). `iniciar_adb` ahora reintenta en tres pasos: `start-server`, borrado de `adb.log` bloqueado y, por último, levantar el servidor como proceso aparte con `adb -L tcp:5037 nodaemon server`.
+
+### Cambiado
+
+- Banner y documentación a la versión **v1.1.1**.
+
 ## [1.1.0] — 2026-11-25
 
 ### Añadido
@@ -65,6 +75,7 @@ Durante el desarrollo se resolvieron fallos que afectaban al uso real:
 - En redes con aislamiento de clientes (hoteles, empresas) la conexión WiFi entre PC y teléfono no es posible; hay que usar USB.
 - Los binarios de `adb` son de Google (Apache-2.0) y no forman parte del trabajo original.
 
-[No publicado]: https://github.com/enigmaelectronica/bloquear_updates_Samsung_inalambrico/compare/v1.1.0...HEAD
+[No publicado]: https://github.com/enigmaelectronica/bloquear_updates_Samsung_inalambrico/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/enigmaelectronica/bloquear_updates_Samsung_inalambrico/releases/tag/v1.1.1
 [1.1.0]: https://github.com/enigmaelectronica/bloquear_updates_Samsung_inalambrico/releases/tag/v1.1.0
 [1.0.0]: https://github.com/enigmaelectronica/bloquear_updates_Samsung_inalambrico/releases/tag/v1.0.0
