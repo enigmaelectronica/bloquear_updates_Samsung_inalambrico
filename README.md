@@ -1,4 +1,4 @@
-# bloquear_updates_Samsung_inalambrico
+# bloquear updates Samsung por Wi-Fi
 
 **Creado por EnigmaHernandez — [EnigmaTeam.org](https://enigmateam.org)**
 
